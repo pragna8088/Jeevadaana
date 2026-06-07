@@ -35,13 +35,54 @@
                         <i class="bi bi-check2-circle"></i> Mark Completed</button>
                 </form>
                 <form th:if="${camp.status.name() == 'UPCOMING'}" method="post"
-                      th:action="@{'/organizer/camps/' + ${camp.id} + '/cancel'}">
+                      th:action="@{'/organizer/camps/' + ${camp.id} + '/cancel'}" class="mb-2">
                     <button class="btn btn-outline-danger btn-sm"
                             onclick="return confirm('Cancel this camp?')">
                         <i class="bi bi-x-circle"></i> Cancel Camp</button>
                 </form>
+                <form method="post" th:action="@{'/organizer/camps/' + ${camp.id} + '/delete'}">
+                    <button class="btn btn-outline-dark btn-sm"
+                            onclick="return confirm('Delete this camp permanently? This cannot be undone.')">
+                        <i class="bi bi-trash"></i> Delete Camp</button>
+                </form>
             </div>
         </div>
+    </div></div>
+
+    <!-- Post-camp statistics -->
+    <div class="card mb-4"><div class="card-body">
+        <h5 class="text-jd"><i class="bi bi-bar-chart"></i> Post-Camp Statistics</h5>
+        <div class="row text-center my-3">
+            <div class="col-md-3 col-6">
+                <h3 class="text-jd mb-0" th:text="${stats.totalRegistrations}">0</h3>
+                <small class="text-muted">Total Registrations</small>
+            </div>
+            <div class="col-md-3 col-6">
+                <h3 class="text-jd mb-0" th:text="${stats.totalDonors}">0</h3>
+                <small class="text-muted">Total Donors</small>
+            </div>
+            <div class="col-md-3 col-6">
+                <h3 class="text-jd mb-0" th:text="${stats.totalUnits} + ' ml'">0 ml</h3>
+                <small class="text-muted">Blood Units Collected</small>
+            </div>
+            <div class="col-md-3 col-6">
+                <h3 class="text-jd mb-0" th:text="${#lists.size(stats.byBloodGroup)}">0</h3>
+                <small class="text-muted">Blood Groups</small>
+            </div>
+        </div>
+        <h6 class="text-muted mt-2"><i class="bi bi-droplet"></i> Blood Group-wise Collection</h6>
+        <p class="text-muted small" th:if="${#lists.isEmpty(stats.byBloodGroup)}">
+            No donations recorded yet.</p>
+        <table class="table table-sm w-auto" th:unless="${#lists.isEmpty(stats.byBloodGroup)}">
+            <thead><tr><th>Blood Group</th><th>Donors</th><th>Units (ml)</th></tr></thead>
+            <tbody>
+            <tr th:each="bg : ${stats.byBloodGroup}">
+                <td><span class="badge badge-blood" th:text="${bg.bloodGroup}">O+</span></td>
+                <td th:text="${bg.donors}">0</td>
+                <td th:text="${bg.units}">0</td>
+            </tr>
+            </tbody>
+        </table>
     </div></div>
 
     <div class="row g-4">

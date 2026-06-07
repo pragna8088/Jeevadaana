@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Organizer Guide - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4">
+    <div class="text-center mb-4">
+        <h2 class="text-jd"><i class="bi bi-megaphone"></i> Organizer Instructions</h2>
+        <p class="text-muted">How to organize and manage a blood donation camp on Jeevadaana.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-list-check"></i> Getting Started</h5>
+                <ol class="mt-3">
+                    <li>Register your organization to receive a unique <strong>Organizer ID</strong>.</li>
+                    <li>Log in and open your Organizer Dashboard.</li>
+                    <li>Click <em>Organize New Camp</em> and fill in the camp details
+                        (date, time, venue, district, capacity).</li>
+                    <li>Publish the camp so donors can find and register for it.</li>
+                </ol>
+            </div></div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-gear"></i> Managing &amp; Post-Camp</h5>
+                <ol class="mt-3">
+                    <li>Use <em>Manage</em> to view registered donors for each camp.</li>
+                    <li>On the camp day, record each donor's blood units collected.</li>
+                    <li>Review <strong>post-camp statistics</strong>: total registrations,
+                        total donors, units collected and a blood-group-wise breakdown.</li>
+                    <li>Mark the camp <em>Completed</em> once donations are recorded.</li>
+                    <li>You can edit upcoming camps or delete camps with no donations.</li>
+                </ol>
+                <div class="alert alert-info mt-2 mb-0">
+                    <i class="bi bi-shield-check"></i>
+                    Ensure trained medical staff and proper storage are arranged for every camp.
+                </div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/organizer/register}" class="btn btn-jd btn-lg">
+            <i class="bi bi-building-add"></i> Register as an Organizer</a>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

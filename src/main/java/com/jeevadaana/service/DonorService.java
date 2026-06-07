@@ -34,6 +34,9 @@ public class DonorService {
         donor.setAge(form.getAge());
         donor.setDistrict(form.getDistrict().trim());
         donor.setAddress(form.getAddress());
+        donor = donorRepository.save(donor);
+        // Generate a human-friendly Registration ID once the numeric id is known.
+        donor.setRegistrationCode(String.format("DNR-%06d", donor.getId()));
         return donorRepository.save(donor);
     }
 

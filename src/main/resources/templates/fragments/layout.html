@@ -23,6 +23,8 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/camps}">Find Camps</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/guidelines}">Donor Guidelines</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/organizer-info}">For Organizers</a></li>
             </ul>
             <ul class="navbar-nav" th:with="donorId=${session.AUTH_DONOR_ID},orgId=${session.AUTH_ORGANIZER_ID}">
                 <li class="nav-item" th:if="${donorId == null and orgId == null}">

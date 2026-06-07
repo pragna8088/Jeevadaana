@@ -58,14 +58,17 @@ public class DonorController {
             addReferenceData(model);
             return "donor/register";
         }
+        Donor donor;
         try {
-            donorService.register(form);
+            donor = donorService.register(form);
         } catch (ServiceException ex) {
             model.addAttribute("error", ex.getMessage());
             addReferenceData(model);
             return "donor/register";
         }
-        ra.addFlashAttribute("success", "Registration successful. Please log in.");
+        ra.addFlashAttribute("success",
+                "Registration successful. Your Registration ID is " + donor.getRegistrationCode()
+                        + ". Please log in.");
         return "redirect:/donor/login";
     }
 

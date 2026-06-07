@@ -13,19 +13,21 @@ USE jeevadaana;
 -- Donors
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS donors (
-    id          BIGINT       NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(100) NOT NULL,
-    email       VARCHAR(120) NOT NULL,
-    password    VARCHAR(255) NOT NULL,
-    phone       VARCHAR(15)  NOT NULL,
-    blood_group VARCHAR(12)  NOT NULL,
-    gender      VARCHAR(10),
-    age         INT,
-    district    VARCHAR(80)  NOT NULL,
-    address     VARCHAR(255),
-    created_at  DATETIME     NOT NULL,
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    registration_code VARCHAR(20),
+    name              VARCHAR(100) NOT NULL,
+    email             VARCHAR(120) NOT NULL,
+    password          VARCHAR(255) NOT NULL,
+    phone             VARCHAR(15)  NOT NULL,
+    blood_group       VARCHAR(12)  NOT NULL,
+    gender            VARCHAR(10),
+    age               INT,
+    district          VARCHAR(80)  NOT NULL,
+    address           VARCHAR(255),
+    created_at        DATETIME     NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uk_donors_email (email)
+    UNIQUE KEY uk_donors_email (email),
+    UNIQUE KEY uk_donors_registration_code (registration_code)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -33,6 +35,7 @@ CREATE TABLE IF NOT EXISTS donors (
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS organizers (
     id                BIGINT       NOT NULL AUTO_INCREMENT,
+    organizer_code    VARCHAR(20),
     organization_name VARCHAR(150) NOT NULL,
     contact_person    VARCHAR(100) NOT NULL,
     email             VARCHAR(120) NOT NULL,
@@ -42,7 +45,8 @@ CREATE TABLE IF NOT EXISTS organizers (
     address           VARCHAR(255),
     created_at        DATETIME     NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uk_organizers_email (email)
+    UNIQUE KEY uk_organizers_email (email),
+    UNIQUE KEY uk_organizers_code (organizer_code)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

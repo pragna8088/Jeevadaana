@@ -79,8 +79,9 @@
                         <span th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</span></p>
                     <p class="text-muted small" th:text="${camp.description}">Description</p>
                 </div>
-                <div class="card-footer bg-white border-0">
-                    <a th:href="@{/donor/login}" class="btn btn-sm btn-jd w-100">Login to Register</a>
+                <div class="card-footer bg-white border-0 d-grid gap-2">
+                    <a th:href="@{'/camps/' + ${camp.id}}" class="btn btn-sm btn-outline-danger">View Details</a>
+                    <a th:href="@{/donor/login}" class="btn btn-sm btn-jd">Login to Register</a>
                 </div>
             </div>
         </div>

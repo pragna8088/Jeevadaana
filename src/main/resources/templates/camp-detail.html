@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Camp Details - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4" th:attr="data-camp-id=${camp.id}">
+    <a th:href="@{/camps}" class="btn btn-sm btn-outline-secondary mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Camps</a>
+
+    <!-- Loaded dynamically from REST /api/camps/{id} -->
+    <div id="campDetail">
+        <p class="text-muted"><i class="bi bi-hourglass-split"></i> Loading camp details…</p>
+    </div>
+
+    <!-- Post-camp statistics (loaded from /api/camps/{id}/stats) -->
+    <div id="campStats" class="mt-4"></div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<script th:src="@{/js/camp-detail.js}"></script>
+</body>
+</html>

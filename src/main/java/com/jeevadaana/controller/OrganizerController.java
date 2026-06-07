@@ -57,13 +57,16 @@ public class OrganizerController {
         if (result.hasErrors()) {
             return "organizer/register";
         }
+        Organizer organizer;
         try {
-            organizerService.register(form);
+            organizer = organizerService.register(form);
         } catch (ServiceException ex) {
             model.addAttribute("error", ex.getMessage());
             return "organizer/register";
         }
-        ra.addFlashAttribute("success", "Registration successful. Please log in.");
+        ra.addFlashAttribute("success",
+                "Registration successful. Your Organizer ID is " + organizer.getOrganizerCode()
+                        + ". Please log in.");
         return "redirect:/organizer/login";
     }
 
@@ -112,6 +115,19 @@ public class OrganizerController {
         model.addAttribute("upcomingCount", upcoming);
         model.addAttribute("completedCount", completed);
         model.addAttribute("totalCamps", camps.size());
+
+        long totalRegistrations = 0;
+        long totalDonors = 0;
+        int totalUnits = 0;
+        for (Camp camp : camps) {
+            var stats = donationService.statsForCamp(camp);
+            totalRegistrations += stats.getTotalRegistrations();
+            totalDonors += stats.getTotalDonors();
+            totalUnits += stats.getTotalUnits();
+        }
+        model.addAttribute("totalRegistrations", totalRegistrations);
+        model.addAttribute("totalDonors", totalDonors);
+        model.addAttribute("totalUnits", totalUnits);
         return "organizer/dashboard";
     }
 
@@ -205,6 +221,7 @@ public class OrganizerController {
         model.addAttribute("camp", camp);
         model.addAttribute("registrations", registrationService.listForCamp(camp));
         model.addAttribute("donations", donationService.listForCamp(camp));
+        model.addAttribute("stats", donationService.statsForCamp(camp));
         model.addAttribute("recordForm", new RecordDonationForm());
         return "organizer/camp-manage";
     }
@@ -227,6 +244,18 @@ public class OrganizerController {
             ra.addFlashAttribute("error", ex.getMessage());
         }
         return "redirect:/organizer/camps/" + campId + "/manage";
+    }
+
+    @PostMapping("/camps/{id}/delete")
+    public String deleteCamp(@PathVariable("id") Long campId, HttpSession session, RedirectAttributes ra) {
+        Organizer organizer = currentOrganizer(session);
+        try {
+            campService.delete(campId, organizer);
+            ra.addFlashAttribute("success", "Camp deleted.");
+        } catch (ServiceException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/organizer/dashboard";
     }
 
     private Organizer currentOrganizer(HttpSession session) {

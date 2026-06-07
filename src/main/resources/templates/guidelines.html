@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Donation Guidelines - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4">
+    <div class="text-center mb-4">
+        <h2 class="text-jd"><i class="bi bi-info-circle"></i> Blood Donation Guidelines</h2>
+        <p class="text-muted">Everything a donor should know before donating blood.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Instructions -->
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-clipboard2-pulse"></i> Blood Donation Instructions</h5>
+                <ul class="mt-3">
+                    <li>Eat a healthy meal and avoid fatty food before donating.</li>
+                    <li>Drink plenty of water in the hours before your donation.</li>
+                    <li>Carry a valid photo ID and your Registration ID to the camp.</li>
+                    <li>Get a good night's sleep before the donation day.</li>
+                    <li>Wear clothing with sleeves that can be raised above the elbow.</li>
+                    <li>Inform the staff about any medication you are currently taking.</li>
+                    <li>After donating, rest for 10–15 minutes and have the refreshments provided.</li>
+                    <li>Avoid heavy lifting or strenuous exercise for the rest of the day.</li>
+                </ul>
+            </div></div>
+        </div>
+
+        <!-- Eligibility -->
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-check2-square"></i> Donor Eligibility Guidelines</h5>
+                <ul class="mt-3">
+                    <li>You must be between <strong>18 and 65 years</strong> of age.</li>
+                    <li>You should weigh at least <strong>50 kg</strong>.</li>
+                    <li>Your haemoglobin level should be at least 12.5 g/dL.</li>
+                    <li>A gap of at least <strong>3 months</strong> is required between two donations.</li>
+                    <li>You should be free from cold, fever or infection on donation day.</li>
+                    <li>You should not have donated blood in the last 90 days.</li>
+                    <li>Pregnant or breastfeeding women should not donate.</li>
+                    <li>You must not be under the influence of alcohol in the last 24 hours.</li>
+                </ul>
+                <div class="alert alert-warning mt-2 mb-0">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Final eligibility is always confirmed by medical staff at the camp.
+                </div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/donor/register}" class="btn btn-jd btn-lg">
+            <i class="bi bi-droplet-fill"></i> Register as a Donor</a>
+        <a th:href="@{/camps}" class="btn btn-outline-danger btn-lg">
+            <i class="bi bi-search"></i> Find a Camp</a>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

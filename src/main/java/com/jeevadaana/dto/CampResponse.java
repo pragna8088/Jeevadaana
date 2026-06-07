@@ -20,6 +20,10 @@ public class CampResponse {
     private String description;
     private String status;
     private String organizerName;
+    private String organizerContact;
+    private String organizerPhone;
+    private String organizerEmail;
+    private Long registrationCount;
 
     public static CampResponse from(Camp camp) {
         CampResponse r = new CampResponse();
@@ -33,7 +37,18 @@ public class CampResponse {
         r.capacity = camp.getCapacity();
         r.description = camp.getDescription();
         r.status = camp.getStatus() != null ? camp.getStatus().name() : null;
-        r.organizerName = camp.getOrganizer() != null ? camp.getOrganizer().getOrganizationName() : null;
+        if (camp.getOrganizer() != null) {
+            r.organizerName = camp.getOrganizer().getOrganizationName();
+            r.organizerContact = camp.getOrganizer().getContactPerson();
+            r.organizerPhone = camp.getOrganizer().getPhone();
+            r.organizerEmail = camp.getOrganizer().getEmail();
+        }
+        return r;
+    }
+
+    public static CampResponse from(Camp camp, long registrationCount) {
+        CampResponse r = from(camp);
+        r.registrationCount = registrationCount;
         return r;
     }
 
@@ -79,5 +94,21 @@ public class CampResponse {
 
     public String getOrganizerName() {
         return organizerName;
+    }
+
+    public String getOrganizerContact() {
+        return organizerContact;
+    }
+
+    public String getOrganizerPhone() {
+        return organizerPhone;
+    }
+
+    public String getOrganizerEmail() {
+        return organizerEmail;
+    }
+
+    public Long getRegistrationCount() {
+        return registrationCount;
     }
 }

@@ -43,10 +43,12 @@
                   <p class="mb-1"><i class="bi bi-geo-alt"></i> ${escapeHtml(camp.venue)}</p>
                   <p class="mb-1"><i class="bi bi-calendar-event"></i> ${formatDate(camp.campDate)}</p>
                   <p class="mb-1"><i class="bi bi-building"></i> ${escapeHtml(camp.organizerName)}</p>
+                  <p class="mb-1"><i class="bi bi-people"></i> ${escapeHtml(camp.registrationCount)} registered</p>
                   <p class="text-muted small">${escapeHtml(camp.description)}</p>
                 </div>
-                <div class="card-footer bg-white border-0">
-                  <a href="/donor/login" class="btn btn-sm btn-jd w-100">Login to Register</a>
+                <div class="card-footer bg-white border-0 d-grid gap-2">
+                  <a href="/camps/${escapeHtml(camp.id)}" class="btn btn-sm btn-outline-danger">View Details</a>
+                  <a href="/donor/login" class="btn btn-sm btn-jd">Login to Register</a>
                 </div>
               </div>
             </div>`;
