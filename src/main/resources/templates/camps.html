@@ -6,47 +6,27 @@
 <div th:replace="~{fragments/layout :: flash}"></div>
 
 <section class="container my-5">
-    <h2 class="text-jd mb-4"><i class="bi bi-search"></i> District-wise Camp Search</h2>
+    <h2 class="text-jd mb-1"><i class="bi bi-search"></i> District-wise Camp Search</h2>
+    <p class="text-muted">Results update live via the REST API as you type.</p>
 
-    <form method="get" th:action="@{/camps}" class="row g-2 mb-4">
-        <div class="col-md-8">
-            <input type="text" name="district" class="form-control" list="districtList"
-                   placeholder="Enter district (e.g. Bengaluru)" th:value="${district}"/>
-            <datalist id="districtList">
-                <option th:each="d : ${districts}" th:value="${d}"></option>
-            </datalist>
+    <div class="row g-2 mb-4">
+        <div class="col-md-9">
+            <input type="text" id="districtSearch" class="form-control form-control-lg"
+                   list="districtList" placeholder="Type a district (e.g. Bengaluru)" th:value="${district}"/>
+            <datalist id="districtList"></datalist>
         </div>
-        <div class="col-md-2 d-grid">
-            <button type="submit" class="btn btn-jd">Search</button>
+        <div class="col-md-3 d-grid">
+            <button type="button" id="clearBtn" class="btn btn-outline-secondary btn-lg">Show all</button>
         </div>
-        <div class="col-md-2 d-grid">
-            <a th:href="@{/camps}" class="btn btn-outline-secondary">Clear</a>
-        </div>
-    </form>
-
-    <div th:if="${#lists.isEmpty(camps)}" class="alert alert-info">No camps found for this search.</div>
-
-    <div class="table-responsive" th:unless="${#lists.isEmpty(camps)}">
-        <table class="table table-hover bg-white align-middle">
-            <thead class="table-light">
-            <tr>
-                <th>Camp</th><th>District</th><th>Venue</th><th>Date</th><th>Organizer</th><th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="camp : ${camps}">
-                <td th:text="${camp.name}">Camp</td>
-                <td><span class="badge bg-secondary" th:text="${camp.district}">District</span></td>
-                <td th:text="${camp.venue}">Venue</td>
-                <td th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</td>
-                <td th:text="${camp.organizer.organizationName}">Org</td>
-                <td><a th:href="@{/donor/login}" class="btn btn-sm btn-jd">Register</a></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
+
+    <div id="status" class="text-muted small mb-2"></div>
+    <div id="noResults" class="alert alert-info d-none">No upcoming camps found for this district.</div>
+
+    <div class="row g-4" id="campResults"><!-- camp cards injected by JS --></div>
 </section>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
+<script th:src="@{/js/camps.js}"></script>
 </body>
 </html>

@@ -18,11 +18,68 @@ body {
 .jd-hero {
     background: linear-gradient(135deg, var(--jd-red), var(--jd-red-dark));
     color: #fff;
-    padding: 4rem 0;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.jd-hero::after {
+    content: "\F40D"; /* bootstrap-icons droplet glyph as a faint watermark */
+    font-family: "bootstrap-icons";
+    position: absolute;
+    right: -2rem;
+    bottom: -3rem;
+    font-size: 16rem;
+    opacity: 0.08;
+    line-height: 1;
 }
 
 .jd-hero h1 {
     font-weight: 700;
+}
+
+.jd-hero-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.jd-hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 0.35rem 1rem;
+    border-radius: 50rem;
+    font-size: 0.9rem;
+}
+
+.jd-quote {
+    max-width: 720px;
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+.jd-step-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: var(--jd-bg);
+    color: var(--jd-red);
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jd-step {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.jd-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(193, 18, 31, 0.15);
 }
 
 .btn-jd {
