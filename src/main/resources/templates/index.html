@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Jeevadaana - Donate Blood, Save Lives')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="jd-hero">
+    <div class="container text-center">
+        <h1 class="display-4"><i class="bi bi-droplet-half"></i> Jeevadaana</h1>
+        <p class="lead">Connecting blood donors with donation camps across districts.</p>
+        <div class="mt-4">
+            <a th:href="@{/donor/register}" class="btn btn-light btn-lg me-2">
+                <i class="bi bi-person-plus"></i> Register as Donor
+            </a>
+            <a th:href="@{/organizer/register}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-building-add"></i> Register as Organizer
+            </a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-jd mb-0">Upcoming Camps</h2>
+        <a th:href="@{/camps}" class="btn btn-jd"><i class="bi bi-search"></i> Search by District</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(upcomingCamps)}" class="alert alert-info">
+        No upcoming camps right now. Please check back soon.
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4" th:each="camp : ${upcomingCamps}">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-jd" th:text="${camp.name}">Camp</h5>
+                    <p class="mb-1"><i class="bi bi-geo-alt"></i>
+                        <span th:text="${camp.venue}">Venue</span></p>
+                    <p class="mb-1"><span class="badge bg-secondary" th:text="${camp.district}">District</span></p>
+                    <p class="mb-1"><i class="bi bi-calendar-event"></i>
+                        <span th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</span></p>
+                    <p class="text-muted small" th:text="${camp.description}">Description</p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <a th:href="@{/donor/login}" class="btn btn-sm btn-jd w-100">Login to Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

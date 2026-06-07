@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">Jeevadaana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+
+<!-- ============ Navbar ============ -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark jd-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+            <i class="bi bi-droplet-half"></i> Jeevadaana
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/camps}">Find Camps</a></li>
+            </ul>
+            <ul class="navbar-nav" th:with="donorId=${session.AUTH_DONOR_ID},orgId=${session.AUTH_ORGANIZER_ID}">
+                <li class="nav-item" th:if="${donorId == null and orgId == null}">
+                    <a class="nav-link" th:href="@{/donor/login}">Donor Login</a>
+                </li>
+                <li class="nav-item" th:if="${donorId == null and orgId == null}">
+                    <a class="nav-link" th:href="@{/organizer/login}">Organizer Login</a>
+                </li>
+                <li class="nav-item" th:if="${donorId != null}">
+                    <a class="nav-link" th:href="@{/donor/dashboard}">
+                        <i class="bi bi-person-circle"></i>
+                        <span th:text="${session.AUTH_DONOR_NAME}">Donor</span>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${donorId != null}">
+                    <a class="nav-link" th:href="@{/donor/logout}">Logout</a>
+                </li>
+                <li class="nav-item" th:if="${orgId != null}">
+                    <a class="nav-link" th:href="@{/organizer/dashboard}">
+                        <i class="bi bi-building"></i>
+                        <span th:text="${session.AUTH_ORGANIZER_NAME}">Organizer</span>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${orgId != null}">
+                    <a class="nav-link" th:href="@{/organizer/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ============ Flash messages ============ -->
+<div th:fragment="flash" class="container mt-3">
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+
+<!-- ============ Footer ============ -->
+<footer th:fragment="footer" class="jd-footer text-center text-muted py-4 mt-5">
+    <div class="container">
+        <small>Jeevadaana &middot; Blood Donation Management System &middot; A DBMS Project</small>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/app.js}"></script>
+</footer>
+
+</body>
+</html>
