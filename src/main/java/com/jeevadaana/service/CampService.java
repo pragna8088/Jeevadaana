@@ -4,7 +4,9 @@ import com.jeevadaana.dto.CampForm;
 import com.jeevadaana.model.Camp;
 import com.jeevadaana.model.CampStatus;
 import com.jeevadaana.model.Organizer;
+import com.jeevadaana.repository.CampRegistrationRepository;
 import com.jeevadaana.repository.CampRepository;
+import com.jeevadaana.repository.DonationRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class CampService {
 
     private final CampRepository campRepository;
+    private final CampRegistrationRepository registrationRepository;
+    private final DonationRepository donationRepository;
 
-    public CampService(CampRepository campRepository) {
+    public CampService(CampRepository campRepository,
+                       CampRegistrationRepository registrationRepository,
+                       DonationRepository donationRepository) {
         this.campRepository = campRepository;
+        this.registrationRepository = registrationRepository;
+        this.donationRepository = donationRepository;
     }
 
     @Transactional
@@ -86,5 +94,24 @@ public class CampService {
 
     public List<String> listDistricts() {
         return campRepository.findDistinctDistricts();
+    }
+
+    public long registrationCount(Camp camp) {
+        return registrationRepository.countByCamp(camp);
+    }
+
+    /**
+     * Deletes a camp owned by the organizer. Registrations are removed first to
+     * satisfy the foreign-key constraint. Deletion is blocked once donations have
+     * been recorded so historical donation data is never orphaned.
+     */
+    @Transactional
+    public void delete(Long campId, Organizer organizer) {
+        Camp camp = getOwnedCamp(campId, organizer);
+        if (!donationRepository.findByCampOrderByDonationDateDesc(camp).isEmpty()) {
+            throw new ServiceException("Cannot delete a camp that already has recorded donations.");
+        }
+        registrationRepository.deleteAll(registrationRepository.findByCampOrderByRegisteredAtAsc(camp));
+        campRepository.delete(camp);
     }
 }

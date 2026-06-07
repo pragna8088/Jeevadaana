@@ -1,5 +1,6 @@
 package com.jeevadaana.service;
 
+import com.jeevadaana.dto.CampStats;
 import com.jeevadaana.model.Camp;
 import com.jeevadaana.model.CampRegistration;
 import com.jeevadaana.model.Donation;
@@ -57,5 +58,12 @@ public class DonationService {
 
     public long countForDonor(Donor donor) {
         return donationRepository.countByDonor(donor);
+    }
+
+    /** Aggregated post-camp statistics, computed from persisted data. */
+    public CampStats statsForCamp(Camp camp) {
+        long totalRegistrations = registrationRepository.countByCamp(camp);
+        List<Donation> donations = donationRepository.findByCampOrderByDonationDateDesc(camp);
+        return CampStats.from(totalRegistrations, donations);
     }
 }

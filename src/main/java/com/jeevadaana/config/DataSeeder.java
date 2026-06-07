@@ -52,6 +52,8 @@ public class DataSeeder implements CommandLineRunner {
         organizer.setDistrict("Bengaluru");
         organizer.setAddress("MG Road, Bengaluru");
         organizer = organizerRepository.save(organizer);
+        organizer.setOrganizerCode(String.format("ORG-%06d", organizer.getId()));
+        organizer = organizerRepository.save(organizer);
 
         Donor donor = new Donor();
         donor.setName("Ravi Kumar");
@@ -63,6 +65,8 @@ public class DataSeeder implements CommandLineRunner {
         donor.setAge(28);
         donor.setDistrict("Bengaluru");
         donor.setAddress("Indiranagar, Bengaluru");
+        donor = donorRepository.save(donor);
+        donor.setRegistrationCode(String.format("DNR-%06d", donor.getId()));
         donorRepository.save(donor);
 
         campRepository.save(camp("City Blood Drive", organizer, "Bengaluru",

@@ -32,6 +32,9 @@ public class OrganizerService {
         organizer.setPhone(form.getPhone().trim());
         organizer.setDistrict(form.getDistrict().trim());
         organizer.setAddress(form.getAddress());
+        organizer = organizerRepository.save(organizer);
+        // Generate a human-friendly Organizer ID once the numeric id is known.
+        organizer.setOrganizerCode(String.format("ORG-%06d", organizer.getId()));
         return organizerRepository.save(organizer);
     }
 

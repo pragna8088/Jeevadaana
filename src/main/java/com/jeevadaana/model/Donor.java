@@ -18,6 +18,9 @@ public class Donor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "registration_code", unique = true, length = 20)
+    private String registrationCode;
+
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -55,6 +58,14 @@ public class Donor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
     }
 
     public String getName() {

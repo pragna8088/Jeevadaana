@@ -16,6 +16,9 @@ public class Organizer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "organizer_code", unique = true, length = 20)
+    private String organizerCode;
+
     @Column(name = "organization_name", nullable = false, length = 150)
     private String organizationName;
 
@@ -46,6 +49,14 @@ public class Organizer {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOrganizerCode() {
+        return organizerCode;
+    }
+
+    public void setOrganizerCode(String organizerCode) {
+        this.organizerCode = organizerCode;
     }
 
     public String getOrganizationName() {

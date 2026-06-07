@@ -11,21 +11,36 @@
             <h2 class="text-jd mb-0" th:text="${organizer.organizationName}">Organization</h2>
             <small class="text-muted"><i class="bi bi-geo-alt"></i>
                 <span th:text="${organizer.district}">District</span></small>
+            <div class="mt-1">
+                <span class="badge bg-dark"><i class="bi bi-building-check"></i>
+                    Organizer ID: <span th:text="${organizer.organizerCode}">ORG-000001</span></span>
+            </div>
         </div>
         <a th:href="@{/organizer/camps/new}" class="btn btn-jd">
             <i class="bi bi-plus-circle"></i> Organize New Camp</a>
     </div>
 
     <div class="row g-3 my-2">
-        <div class="col-md-4"><div class="card stat-card"><div class="card-body">
+        <div class="col-md-3 col-6"><div class="card stat-card"><div class="card-body">
             <h6 class="text-muted">Total Camps</h6>
             <h3 class="text-jd mb-0" th:text="${totalCamps}">0</h3></div></div></div>
-        <div class="col-md-4"><div class="card stat-card"><div class="card-body">
+        <div class="col-md-3 col-6"><div class="card stat-card"><div class="card-body">
             <h6 class="text-muted">Upcoming</h6>
             <h3 class="text-jd mb-0" th:text="${upcomingCount}">0</h3></div></div></div>
-        <div class="col-md-4"><div class="card stat-card"><div class="card-body">
+        <div class="col-md-3 col-6"><div class="card stat-card"><div class="card-body">
             <h6 class="text-muted">Completed</h6>
             <h3 class="text-jd mb-0" th:text="${completedCount}">0</h3></div></div></div>
+        <div class="col-md-3 col-6"><div class="card stat-card"><div class="card-body">
+            <h6 class="text-muted">Total Registrations</h6>
+            <h3 class="text-jd mb-0" th:text="${totalRegistrations}">0</h3></div></div></div>
+    </div>
+    <div class="row g-3 mb-2">
+        <div class="col-md-6"><div class="card stat-card"><div class="card-body">
+            <h6 class="text-muted">Total Donors</h6>
+            <h3 class="text-jd mb-0" th:text="${totalDonors}">0</h3></div></div></div>
+        <div class="col-md-6"><div class="card stat-card"><div class="card-body">
+            <h6 class="text-muted">Blood Units Collected</h6>
+            <h3 class="text-jd mb-0" th:text="${totalUnits} + ' ml'">0 ml</h3></div></div></div>
     </div>
 
     <div class="card mt-3"><div class="card-body">
