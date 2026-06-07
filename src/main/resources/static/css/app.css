@@ -1,0 +1,67 @@
+:root {
+    --jd-red: #c1121f;
+    --jd-red-dark: #780000;
+    --jd-bg: #fff5f5;
+}
+
+body {
+    background-color: var(--jd-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.jd-navbar {
+    background: linear-gradient(90deg, var(--jd-red-dark), var(--jd-red));
+}
+
+.jd-hero {
+    background: linear-gradient(135deg, var(--jd-red), var(--jd-red-dark));
+    color: #fff;
+    padding: 4rem 0;
+}
+
+.jd-hero h1 {
+    font-weight: 700;
+}
+
+.btn-jd {
+    background-color: var(--jd-red);
+    border-color: var(--jd-red);
+    color: #fff;
+}
+
+.btn-jd:hover {
+    background-color: var(--jd-red-dark);
+    border-color: var(--jd-red-dark);
+    color: #fff;
+}
+
+.text-jd {
+    color: var(--jd-red);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    border-radius: 0.75rem;
+}
+
+.stat-card {
+    border-left: 5px solid var(--jd-red);
+}
+
+.auth-card {
+    max-width: 480px;
+    margin: 3rem auto;
+}
+
+.jd-footer {
+    margin-top: auto;
+    background-color: #fff;
+    border-top: 1px solid #f0d0d0;
+}
+
+.badge-blood {
+    background-color: var(--jd-red);
+}

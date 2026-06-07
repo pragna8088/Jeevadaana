@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Find Camps - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4"
+         th:with="registeredCampIds=${registrations.![camp.id]}">
+    <h2 class="text-jd"><i class="bi bi-search"></i> Find &amp; Register for Camps</h2>
+
+    <form method="get" th:action="@{/donor/camps}" class="row g-2 my-3">
+        <div class="col-md-8">
+            <input type="text" name="district" class="form-control" list="districtList"
+                   placeholder="Search by district" th:value="${district}"/>
+            <datalist id="districtList">
+                <option th:each="d : ${districts}" th:value="${d}"></option>
+            </datalist>
+        </div>
+        <div class="col-md-2 d-grid"><button type="submit" class="btn btn-jd">Search</button></div>
+        <div class="col-md-2 d-grid"><a th:href="@{/donor/camps}" class="btn btn-outline-secondary">Clear</a></div>
+    </form>
+
+    <div th:if="${#lists.isEmpty(camps)}" class="alert alert-info">No camps found.</div>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(camps)}">
+        <table class="table table-hover bg-white align-middle">
+            <thead class="table-light">
+            <tr><th>Camp</th><th>District</th><th>Venue</th><th>Date</th><th>Organizer</th><th></th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="camp : ${camps}">
+                <td th:text="${camp.name}">Camp</td>
+                <td><span class="badge bg-secondary" th:text="${camp.district}">District</span></td>
+                <td th:text="${camp.venue}">Venue</td>
+                <td th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</td>
+                <td th:text="${camp.organizer.organizationName}">Org</td>
+                <td>
+                    <span th:if="${#lists.contains(registeredCampIds, camp.id)}"
+                          class="badge bg-success">Registered</span>
+                    <form th:unless="${#lists.contains(registeredCampIds, camp.id)}" method="post"
+                          th:action="@{'/donor/camps/' + ${camp.id} + '/register'}">
+                        <button class="btn btn-sm btn-jd">Register</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/donor/dashboard}" class="btn btn-outline-secondary mt-2">Back to Dashboard</a>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

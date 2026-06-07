@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Organizer Registration - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="container">
+    <div class="card auth-card" style="max-width:620px;">
+        <div class="card-body p-4">
+            <h3 class="text-jd mb-3"><i class="bi bi-building-add"></i> Organizer Registration</h3>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <form method="post" th:action="@{/organizer/register}" th:object="${form}">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Organization Name</label>
+                        <input type="text" class="form-control" th:field="*{organizationName}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('organizationName')}" th:errors="*{organizationName}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Contact Person</label>
+                        <input type="text" class="form-control" th:field="*{contactPerson}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('contactPerson')}" th:errors="*{contactPerson}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" th:field="*{password}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" th:field="*{phone}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">District</label>
+                        <input type="text" class="form-control" th:field="*{district}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" th:field="*{address}"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-jd w-100 mt-4">Register</button>
+                <p class="text-center mt-3 mb-0">Already registered?
+                    <a th:href="@{/organizer/login}" class="text-jd">Login</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

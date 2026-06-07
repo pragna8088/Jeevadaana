@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Organize Camp - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="container my-4">
+    <div class="card" style="max-width:720px;margin:auto;">
+        <div class="card-body p-4">
+            <h3 class="text-jd mb-3">
+                <i class="bi bi-calendar-plus"></i>
+                <span th:text="${mode == 'edit'} ? 'Edit Camp' : 'Organize New Camp'">New Camp</span>
+            </h3>
+
+            <form method="post" th:object="${form}"
+                  th:action="${mode == 'edit'} ? @{'/organizer/camps/' + ${campId} + '/edit'} : @{/organizer/camps/new}">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Camp Name</label>
+                        <input type="text" class="form-control" th:field="*{name}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">District</label>
+                        <input type="text" class="form-control" th:field="*{district}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Venue</label>
+                        <input type="text" class="form-control" th:field="*{venue}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('venue')}" th:errors="*{venue}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Camp Date</label>
+                        <input type="date" class="form-control" th:field="*{campDate}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('campDate')}" th:errors="*{campDate}"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Start Time</label>
+                        <input type="time" class="form-control" th:field="*{startTime}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">End Time</label>
+                        <input type="time" class="form-control" th:field="*{endTime}"/>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Capacity</label>
+                        <input type="number" class="form-control" th:field="*{capacity}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-jd">Save Camp</button>
+                    <a th:href="@{/organizer/dashboard}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

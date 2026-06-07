@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Camp - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4">
+    <a th:href="@{/organizer/dashboard}" class="btn btn-sm btn-outline-secondary mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+
+    <!-- Camp summary -->
+    <div class="card mb-4"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap">
+            <div>
+                <h3 class="text-jd mb-1" th:text="${camp.name}">Camp</h3>
+                <p class="mb-1">
+                    <span class="badge bg-secondary" th:text="${camp.district}">District</span>
+                    <span class="badge"
+                          th:classappend="${camp.status.name() == 'UPCOMING'} ? 'bg-primary' : (${camp.status.name() == 'COMPLETED'} ? 'bg-success' : 'bg-secondary')"
+                          th:text="${camp.status}">STATUS</span>
+                </p>
+                <p class="mb-1"><i class="bi bi-geo-alt"></i> <span th:text="${camp.venue}">Venue</span></p>
+                <p class="mb-0"><i class="bi bi-calendar-event"></i>
+                    <span th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</span>
+                    <span th:if="${camp.startTime != null}"
+                          th:text="' (' + ${camp.startTime} + ' - ' + ${camp.endTime} + ')'"></span>
+                </p>
+            </div>
+            <div class="text-end">
+                <form th:if="${camp.status.name() == 'UPCOMING'}" method="post"
+                      th:action="@{'/organizer/camps/' + ${camp.id} + '/complete'}" class="mb-2">
+                    <button class="btn btn-success btn-sm"
+                            onclick="return confirm('Mark this camp as completed?')">
+                        <i class="bi bi-check2-circle"></i> Mark Completed</button>
+                </form>
+                <form th:if="${camp.status.name() == 'UPCOMING'}" method="post"
+                      th:action="@{'/organizer/camps/' + ${camp.id} + '/cancel'}">
+                    <button class="btn btn-outline-danger btn-sm"
+                            onclick="return confirm('Cancel this camp?')">
+                        <i class="bi bi-x-circle"></i> Cancel Camp</button>
+                </form>
+            </div>
+        </div>
+    </div></div>
+
+    <div class="row g-4">
+        <!-- Registrations + record donation (post-camp management) -->
+        <div class="col-lg-7">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-people"></i> Registered Donors
+                    (<span th:text="${#lists.size(registrations)}">0</span>)</h5>
+                <p class="text-muted small" th:if="${#lists.isEmpty(registrations)}">
+                    No donors registered yet.</p>
+
+                <table class="table table-sm align-middle" th:unless="${#lists.isEmpty(registrations)}">
+                    <thead><tr><th>Donor</th><th>Blood</th><th>Phone</th><th>Status</th>
+                        <th>Record Donation</th></tr></thead>
+                    <tbody>
+                    <tr th:each="reg : ${registrations}">
+                        <td th:text="${reg.donor.name}">Donor</td>
+                        <td><span class="badge badge-blood" th:text="${reg.donor.bloodGroup.label}">O+</span></td>
+                        <td th:text="${reg.donor.phone}">Phone</td>
+                        <td><span class="badge bg-secondary" th:text="${reg.status}">STATUS</span></td>
+                        <td>
+                            <span th:if="${reg.status.name() == 'ATTENDED'}" class="text-success small">
+                                <i class="bi bi-check-circle-fill"></i> Recorded</span>
+                            <form th:if="${reg.status.name() == 'REGISTERED'}" method="post"
+                                  th:action="@{'/organizer/camps/' + ${camp.id} + '/record'}"
+                                  class="d-flex gap-1">
+                                <input type="hidden" name="registrationId" th:value="${reg.id}"/>
+                                <input type="number" name="unitsMl" value="450" min="100"
+                                       class="form-control form-control-sm" style="width:80px"/>
+                                <input type="text" name="remarks" placeholder="Remarks"
+                                       class="form-control form-control-sm" style="width:110px"/>
+                                <button class="btn btn-sm btn-jd">Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div></div>
+        </div>
+
+        <!-- Donations recorded -->
+        <div class="col-lg-5">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-droplet-fill"></i> Donations Collected
+                    (<span th:text="${#lists.size(donations)}">0</span>)</h5>
+                <p class="text-muted small" th:if="${#lists.isEmpty(donations)}">
+                    No donations recorded yet.</p>
+                <ul class="list-group list-group-flush" th:unless="${#lists.isEmpty(donations)}">
+                    <li class="list-group-item d-flex justify-content-between" th:each="d : ${donations}">
+                        <span th:text="${d.donor.name}">Donor</span>
+                        <span>
+                            <span class="badge badge-blood" th:text="${d.bloodGroup.label}">O+</span>
+                            <span class="text-muted small" th:text="${d.unitsMl} + ' ml'">450 ml</span>
+                        </span>
+                    </li>
+                </ul>
+            </div></div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

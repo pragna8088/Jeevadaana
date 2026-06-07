@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Donation History - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="container my-4">
+    <h2 class="text-jd"><i class="bi bi-clock-history"></i> Donation History</h2>
+    <p class="text-muted">All blood donations recorded for <span th:text="${donor.name}">Donor</span>.</p>
+
+    <div th:if="${#lists.isEmpty(donations)}" class="alert alert-info">No donations recorded yet.</div>
+
+    <div class="card" th:unless="${#lists.isEmpty(donations)}"><div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr><th>Date</th><th>Camp</th><th>District</th><th>Blood Group</th><th>Units (ml)</th><th>Remarks</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${donations}">
+                <td th:text="${#temporals.format(d.donationDate, 'dd MMM yyyy')}">Date</td>
+                <td th:text="${d.camp != null ? d.camp.name : '-'}">Camp</td>
+                <td th:text="${d.camp != null ? d.camp.district : '-'}">District</td>
+                <td><span class="badge badge-blood" th:text="${d.bloodGroup.label}">O+</span></td>
+                <td th:text="${d.unitsMl}">450</td>
+                <td th:text="${d.remarks}">-</td>
+            </tr>
+            </tbody>
+        </table>
+    </div></div>
+    <a th:href="@{/donor/dashboard}" class="btn btn-outline-secondary mt-3">Back to Dashboard</a>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

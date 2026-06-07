@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Donor Dashboard - Jeevadaana')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+
+<section class="container my-4">
+    <h2 class="text-jd">Welcome, <span th:text="${donor.name}">Donor</span></h2>
+    <p class="text-muted">
+        <span class="badge badge-blood" th:text="${donor.bloodGroup.label}">O+</span>
+        <i class="bi bi-geo-alt"></i> <span th:text="${donor.district}">District</span>
+    </p>
+
+    <!-- Stats -->
+    <div class="row g-3 my-2">
+        <div class="col-md-4">
+            <div class="card stat-card"><div class="card-body">
+                <h6 class="text-muted">Total Donations</h6>
+                <h3 class="text-jd mb-0" th:text="${donationCount}">0</h3>
+            </div></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card"><div class="card-body">
+                <h6 class="text-muted">My Registrations</h6>
+                <h3 class="text-jd mb-0" th:text="${#lists.size(registrations)}">0</h3>
+            </div></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card"><div class="card-body">
+                <h6 class="text-muted">Nearby Camps</h6>
+                <h3 class="text-jd mb-0" th:text="${#lists.size(nearbyCamps)}">0</h3>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+        <!-- Nearby camps -->
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-geo"></i> Nearby Camps
+                    (<span th:text="${donor.district}">District</span>)</h5>
+                <p class="text-muted small" th:if="${#lists.isEmpty(nearbyCamps)}">
+                    No upcoming camps in your district.
+                    <a th:href="@{/donor/camps}">Search other districts</a>.</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                        th:each="camp : ${nearbyCamps}">
+                        <div>
+                            <strong th:text="${camp.name}">Camp</strong><br/>
+                            <small class="text-muted">
+                                <span th:text="${camp.venue}">Venue</span> &middot;
+                                <span th:text="${#temporals.format(camp.campDate, 'dd MMM yyyy')}">Date</span>
+                            </small>
+                        </div>
+                        <span th:if="${#lists.contains(registeredCampIds, camp.id)}"
+                              class="badge bg-success">Registered</span>
+                        <form th:unless="${#lists.contains(registeredCampIds, camp.id)}"
+                              method="post" th:action="@{'/donor/camps/' + ${camp.id} + '/register'}">
+                            <button class="btn btn-sm btn-jd">Register</button>
+                        </form>
+                    </li>
+                </ul>
+                <a th:href="@{/donor/camps}" class="btn btn-outline-danger btn-sm mt-3">
+                    <i class="bi bi-search"></i> Find more camps</a>
+            </div></div>
+        </div>
+
+        <!-- My registrations -->
+        <div class="col-lg-6">
+            <div class="card h-100"><div class="card-body">
+                <h5 class="text-jd"><i class="bi bi-card-checklist"></i> My Camp Registrations</h5>
+                <p class="text-muted small" th:if="${#lists.isEmpty(registrations)}">
+                    You have not registered for any camps yet.</p>
+                <table class="table table-sm align-middle" th:unless="${#lists.isEmpty(registrations)}">
+                    <thead><tr><th>Camp</th><th>Date</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                    <tr th:each="reg : ${registrations}">
+                        <td th:text="${reg.camp.name}">Camp</td>
+                        <td th:text="${#temporals.format(reg.camp.campDate, 'dd MMM yyyy')}">Date</td>
+                        <td><span class="badge bg-secondary" th:text="${reg.status}">STATUS</span></td>
+                        <td>
+                            <form th:if="${reg.status.name() == 'REGISTERED'}" method="post"
+                                  th:action="@{'/donor/registrations/' + ${reg.id} + '/cancel'}">
+                                <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div></div>
+        </div>
+    </div>
+
+    <!-- Donation history -->
+    <div class="card mt-4"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="text-jd mb-0"><i class="bi bi-clock-history"></i> Recent Donation History</h5>
+            <a th:href="@{/donor/donations}" class="btn btn-sm btn-outline-danger">View all</a>
+        </div>
+        <p class="text-muted small mt-2" th:if="${#lists.isEmpty(donations)}">No donations recorded yet.</p>
+        <table class="table table-sm mt-2" th:unless="${#lists.isEmpty(donations)}">
+            <thead><tr><th>Date</th><th>Camp</th><th>Blood Group</th><th>Units (ml)</th></tr></thead>
+            <tbody>
+            <tr th:each="d : ${donations}">
+                <td th:text="${#temporals.format(d.donationDate, 'dd MMM yyyy')}">Date</td>
+                <td th:text="${d.camp != null ? d.camp.name : '-'}">Camp</td>
+                <td th:text="${d.bloodGroup.label}">O+</td>
+                <td th:text="${d.unitsMl}">450</td>
+            </tr>
+            </tbody>
+        </table>
+    </div></div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
